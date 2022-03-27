@@ -8,7 +8,8 @@ Application::Application()
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
 	player = new ModulePlayer(this);
-	scene = new ModuleScene(this);
+	scene1 = new ModuleScene1(this);
+	scene2 = new ModuleScene2(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -22,7 +23,8 @@ Application::Application()
 	AddModule(audio);
 	
 	// Scenes
-	AddModule(scene);
+	AddModule(scene1);
+	AddModule(scene2);
 	
 	// Player
 	AddModule(player);

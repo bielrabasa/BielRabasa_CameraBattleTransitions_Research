@@ -9,18 +9,20 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModulePlayer.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene1.h"
+#include "ModuleScene2.h"
 
 class Application
 {
 public:
-	ModuleRender* renderer;
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleAudio* audio;
 	ModulePlayer* player;
-	ModuleScene* scene;
+	ModuleScene1* scene1;
+	ModuleScene2* scene2;
+	ModuleRender* renderer;
 
 private:
 

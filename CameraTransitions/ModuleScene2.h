@@ -4,17 +4,18 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 
-class ModuleScene : public Module
+class ModuleScene2 : public Module
 {
 public:
-	ModuleScene(Application* app, bool start_enabled = true);
-	~ModuleScene();
+	ModuleScene2(Application* app, bool start_enabled = false);
+	~ModuleScene2();
 
 	bool Start();
 	update_status Update();
+	update_status PostUpdate();
 	bool CleanUp();
 
 public:
 	
-	SDL_Texture* graphics;
+	SDL_Texture* backgroundTex;
 };
