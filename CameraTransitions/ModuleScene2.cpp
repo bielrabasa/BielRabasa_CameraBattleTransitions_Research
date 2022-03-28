@@ -32,7 +32,6 @@ bool ModuleScene2::CleanUp()
 // Update: draw background
 update_status ModuleScene2::Update()
 {
-	App->renderer->DrawTexture(backgroundTex, 0, 0, 1.0f/1.5f);
 
 
 	return UPDATE_CONTINUE;
@@ -40,5 +39,7 @@ update_status ModuleScene2::Update()
 
 update_status ModuleScene2::PostUpdate()
 {
+	App->renderer->DrawTexture(backgroundTex, 0, 0, 1.0f / 1.5f);
+
 	return update_status();
 }

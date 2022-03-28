@@ -11,6 +11,7 @@
 #include "ModulePlayer.h"
 #include "ModuleScene1.h"
 #include "ModuleScene2.h"
+#include "ModuleTransitions.h"
 
 class Application
 {
@@ -23,6 +24,7 @@ public:
 	ModuleScene1* scene1;
 	ModuleScene2* scene2;
 	ModuleRender* renderer;
+	ModuleTransitions* transitions;
 
 private:
 

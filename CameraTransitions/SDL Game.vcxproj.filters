@@ -56,6 +56,9 @@
     <ClInclude Include="ModuleScene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleTransitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -89,6 +92,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModuleScene2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTransitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

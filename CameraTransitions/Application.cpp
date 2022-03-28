@@ -10,6 +10,7 @@ Application::Application()
 	player = new ModulePlayer(this);
 	scene1 = new ModuleScene1(this);
 	scene2 = new ModuleScene2(this);
+	transitions = new ModuleTransitions(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -21,6 +22,9 @@ Application::Application()
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
+
+	// Transitions
+	AddModule(transitions);
 	
 	// Scenes
 	AddModule(scene1);
