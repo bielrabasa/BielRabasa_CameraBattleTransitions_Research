@@ -1,6 +1,5 @@
 #pragma once
 #include "Module.h"
-#include "Animation.h"
 #include "p2DynArray.h"
 #include "Globals.h"
 
@@ -8,18 +7,6 @@
 enum class TRANSITION_TYPE {
 	NONE,
 	FADE_TO_BLACK,
-};
-
-class Transitioning {
-public:
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void PostUpdate() {}
-	virtual void CleanUp() {}
-
-public:
-	int transitionTime;
-	Application* App;
 };
 
 class ModuleTransitions : public Module

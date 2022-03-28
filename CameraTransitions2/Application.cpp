@@ -7,7 +7,6 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
-	player = new ModulePlayer(this);
 	scene1 = new ModuleScene1(this);
 	scene2 = new ModuleScene2(this);
 	transitions = new ModuleTransitions(this);
@@ -18,21 +17,18 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
-	
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
-
+	
 	// Transitions
 	AddModule(transitions);
-	
+
 	// Scenes
 	AddModule(scene1);
 	AddModule(scene2);
-	
-	// Player
-	AddModule(player);
 
+	//Drawing
 	AddModule(renderer);
 }
 
@@ -105,6 +101,7 @@ update_status Application::Update()
 		item = item->next;
 	}
 
+	
 	return ret;
 }
 

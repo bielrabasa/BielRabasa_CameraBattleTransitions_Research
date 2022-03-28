@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleTransitions.h"
 
@@ -36,14 +35,14 @@ void ModuleTransitions::SceneChange()
 
 void ModuleTransitions::FadeToBlack()
 {
-	App->renderer->DrawQuad(SDL_Rect{ 0,0,SCREEN_WIDTH, SCREEN_HEIGHT }, 255, 0, 0, 255);
+	App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 255, 0, 0, 255);
 }
 
 update_status ModuleTransitions::Update()
 {
 	step++;
 
-	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
+	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
 
 	switch (transitionType) {
 	case TRANSITION_TYPE::FADE_TO_BLACK:
