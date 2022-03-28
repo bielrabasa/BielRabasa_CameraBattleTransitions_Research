@@ -13,7 +13,6 @@ bool ModuleTransitions::Start()
 	bool ret = true;
 	
 	step = 0;
-	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
 
 	return ret;
 }
@@ -50,16 +49,31 @@ void ModuleTransitions::FadeToBlack()
 
 void ModuleTransitions::Squared()
 {
-	int percentage = (float)step / (float)transitionTime * 100.0f;
-	percentage /= 10;
-	if (step * 2 < transitionTime) {
-		switch (percentage) {
-		case 10:
-			App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, 255.0f);
-		case 9:
-			//CONTINUE
+	int percentage = ((float)step / (float)transitionTime) * 40.0f;
+	int w = SCREEN_WIDTH / 10;
+	int h = SCREEN_HEIGHT / 10;
+
+	if (step * 2 >= transitionTime)
+		percentage = 40 - percentage;
+
+	for (int j = 0; j < percentage; ++j){
+		for (int i = 0; i < percentage; ++i) {
+			App->renderer->DrawQuad(SDL_Rect{ w * i, h * (10 - j + i), w, h }, 0, 0, 0, 255);
 		}
 	}
+}
+
+void ModuleTransitions::Circle()
+{
+	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
+	int percentage = ((float)step / (float)transitionTime) * 360.0f;
+	int r = sqrt((SCREEN_WIDTH * SCREEN_WIDTH) + (SCREEN_HEIGHT * SCREEN_HEIGHT));
+	for (float i = 0; i < percentage; i += 1.f) {
+		int x = SCREEN_WIDTH / 2;
+		int y = SCREEN_HEIGHT / 2;
+		App->renderer->DrawLine(x, y, x + (r * cos(i)), y + (r * sin(i)), 0, 0, 0);
+	}
+	
 }
 
 update_status ModuleTransitions::Update()
@@ -74,6 +88,14 @@ update_status ModuleTransitions::PostUpdate()
 	switch (transitionType) {
 	case TRANSITION_TYPE::FADE_TO_BLACK:
 		FadeToBlack();
+		break;
+
+	case TRANSITION_TYPE::SQUARED:
+		Squared();
+		break;
+
+	case TRANSITION_TYPE::CIRCLE:
+		Circle();
 		break;
 	}
 	

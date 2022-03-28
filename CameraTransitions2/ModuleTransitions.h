@@ -8,6 +8,7 @@ enum class TRANSITION_TYPE {
 	NONE,
 	FADE_TO_BLACK,
 	SQUARED,
+	CIRCLE
 };
 
 class ModuleTransitions : public Module
@@ -43,6 +44,7 @@ private:
 
 	void FadeToBlack();
 	void Squared();
+	void Circle();
 
 	int step;
 	int transitionTime;
