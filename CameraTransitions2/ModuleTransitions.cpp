@@ -13,6 +13,7 @@ bool ModuleTransitions::Start()
 	bool ret = true;
 	
 	step = 0;
+	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
 
 	return ret;
 }
@@ -35,27 +36,46 @@ void ModuleTransitions::SceneChange()
 
 void ModuleTransitions::FadeToBlack()
 {
-	App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 255, 0, 0, 255);
+	if (2 * step < transitionTime) {
+		App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, (float(step * 2) / (float)transitionTime) * 255.0f);
+	}
+	else if (step * 2 == transitionTime) {
+		App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, 255.0f);
+	}
+	else {
+		App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, 255.0f - (float(step * 2) / (float)transitionTime) * 255.0f);
+	}
+	
+}
+
+void ModuleTransitions::Squared()
+{
+	int percentage = (float)step / (float)transitionTime * 100.0f;
+	percentage /= 10;
+	if (step * 2 < transitionTime) {
+		switch (percentage) {
+		case 10:
+			App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, 255.0f);
+		case 9:
+			//CONTINUE
+		}
+	}
 }
 
 update_status ModuleTransitions::Update()
 {
 	step++;
 
-	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
-
-	switch (transitionType) {
-	case TRANSITION_TYPE::FADE_TO_BLACK:
-		FadeToBlack();
-		break;
-	}
-
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleTransitions::PostUpdate()
 {
-	
+	switch (transitionType) {
+	case TRANSITION_TYPE::FADE_TO_BLACK:
+		FadeToBlack();
+		break;
+	}
 	
 	if (2 * step >= transitionTime)
 		SceneChange();
@@ -63,5 +83,5 @@ update_status ModuleTransitions::PostUpdate()
 	if (step >= transitionTime)
 		Disable();
 
-	return update_status();
+	return UPDATE_CONTINUE;
 }

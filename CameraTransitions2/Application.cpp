@@ -21,12 +21,12 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	
-	// Transitions
-	AddModule(transitions);
-
 	// Scenes
 	AddModule(scene1);
 	AddModule(scene2);
+
+	// Transitions
+	AddModule(transitions);
 
 	//Drawing
 	AddModule(renderer);

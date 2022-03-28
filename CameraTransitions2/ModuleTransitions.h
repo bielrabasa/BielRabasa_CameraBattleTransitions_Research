@@ -7,6 +7,7 @@
 enum class TRANSITION_TYPE {
 	NONE,
 	FADE_TO_BLACK,
+	SQUARED,
 };
 
 class ModuleTransitions : public Module
@@ -41,6 +42,7 @@ private:
 	void SceneChange();
 
 	void FadeToBlack();
+	void Squared();
 
 	int step;
 	int transitionTime;

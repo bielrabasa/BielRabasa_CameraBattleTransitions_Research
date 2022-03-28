@@ -41,5 +41,5 @@ update_status ModuleScene2::Update()
 update_status ModuleScene2::PostUpdate()
 {
 
-	return update_status();
+	return UPDATE_CONTINUE;
 }
