@@ -25,6 +25,7 @@ bool ModuleScene2::Start()
 bool ModuleScene2::CleanUp()
 {
 	App->textures->Unload(backgroundTex);
+	backgroundTex = nullptr;
 
 	return true;
 }
@@ -39,10 +40,10 @@ update_status ModuleScene2::Update()
 		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::SQUARED);
 
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::CIRCLE);
+		App->transitions->Transition(App->scene2, App->scene1, 60, TRANSITION_TYPE::CIRCLE);
 	
 	else if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::SLASH);
+		App->transitions->Transition(App->scene2, App->scene1, 30, TRANSITION_TYPE::SLASH);
 
 	return UPDATE_CONTINUE;
 }

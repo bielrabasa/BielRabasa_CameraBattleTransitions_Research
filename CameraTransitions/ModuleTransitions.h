@@ -57,6 +57,10 @@ private:
 	void Circle();
 	void Slash();
 
+	//Transition Sprites
+	SDL_Texture* sprite = nullptr;
+
+	//Variables
 	int step;
 	int transitionTime;
 	TRANSITION_TYPE transitionType;

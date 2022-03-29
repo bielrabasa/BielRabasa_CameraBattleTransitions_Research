@@ -57,7 +57,7 @@ update_status ModuleRender::PostUpdate()
 {
 	SDL_RenderPresent(renderer);
 
-	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
+	/*if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
 		const Uint32 formats = SDL_PIXELFORMAT_ARGB8888;
 		const int widths = 640;
 		const int heights = 400;
@@ -67,7 +67,7 @@ update_status ModuleRender::PostUpdate()
 		SDL_RenderReadPixels(renderers, NULL, formats, surfaces->pixels, surfaces->pitch);
 		SDL_SaveBMP(surfaces, "photos/screenshot.bmp");
 		SDL_FreeSurface(surfaces);
-	}
+	}*/
 
 	return UPDATE_CONTINUE;
 }
@@ -87,7 +87,7 @@ bool ModuleRender::CleanUp()
 }
 
 // Blit to screen
-bool ModuleRender::DrawTexture(SDL_Texture* texture, int x, int y, float scale, SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y )
+bool ModuleRender::DrawTexture(SDL_Texture* texture, int x, int y, float scale, bool flipH, SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y )
 {
 	bool ret = true;
 	SDL_Rect rect;
@@ -117,11 +117,21 @@ bool ModuleRender::DrawTexture(SDL_Texture* texture, int x, int y, float scale, 
 		p = &pivot;
 	}
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
-	{
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-		ret = false;
+	if (flipH) {
+		if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_HORIZONTAL) != 0)
+		{
+			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+			ret = false;
+		}
 	}
+	else {
+		if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+		{
+			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+			ret = false;
+		}
+	}
+	
 
 	return ret;
 }

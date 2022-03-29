@@ -22,7 +22,8 @@ bool ModuleTransitions::CleanUp()
 	preScene = nullptr;
 	postScene = nullptr;
 
-	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_NONE);
+	App->textures->Unload(sprite);
+	sprite = nullptr;
 
 	return true;
 }
@@ -65,34 +66,36 @@ void ModuleTransitions::Squared()
 
 void ModuleTransitions::Circle()
 {
+	if (sprite == nullptr)
+		sprite = App->textures->Load("Assets/circle.png");
 
 	float percentage = ((float)step / (float)transitionTime) * 2.0f;
-	float r = 750.0f;
 
 	if (step * 2 >= transitionTime)
 		percentage = 2.0f - percentage;
 
-	for (float i = 0.0f; i < (percentage * r); i += 0.1f) {
-		App->renderer->DrawCircle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, i, 0, 0, 0);
-	}
+	float scale = 5.0f * percentage;
 
-	/*for (float i = 0; i < percentage; i += 0.1f) {
-		int x = SCREEN_WIDTH / 2;
-		int y = SCREEN_HEIGHT / 2;
-		App->renderer->DrawLine(x, y, x + (r * cos(i)), y + (r * sin(i)), 0, 0, 0);
-	}*/
-	
+	App->renderer->DrawTexture(sprite, SCREEN_WIDTH / 2.0f - 150.0f * scale, SCREEN_HEIGHT / 2.0f - 150.0f * scale, scale);
 }
 
 void ModuleTransitions::Slash()
 {
-	int percentage = ((float)step / (float)transitionTime) * 200.0f;
+	if (sprite == nullptr)
+		sprite = App->textures->Load("Assets/slash.png");
+
+	float percentage = ((float)step / (float)transitionTime) * 200.0f;
 
 	if (step * 2 >= transitionTime)
 		percentage = 100 - percentage;
-
-	//App->renderer->DrawQuad()
 	
+	int scale = 3;
+
+	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH/2) * ((100.0f - percentage)/100.0f)) + ((SCREEN_WIDTH - (600 * scale)) / 2), 
+		(SCREEN_HEIGHT - (300 * scale)) / 2, scale);
+
+	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (600 * scale)) / 2) - ((SCREEN_WIDTH / 2) * ((100.0f - percentage) / 100.0f)),
+		(SCREEN_HEIGHT - (300 * scale)) / 2, scale, true);
 }
 
 update_status ModuleTransitions::Update()
@@ -115,6 +118,10 @@ update_status ModuleTransitions::PostUpdate()
 
 	case TRANSITION_TYPE::CIRCLE:
 		Circle();
+		break;
+
+	case TRANSITION_TYPE::SLASH:
+		Slash();
 		break;
 	}
 	
