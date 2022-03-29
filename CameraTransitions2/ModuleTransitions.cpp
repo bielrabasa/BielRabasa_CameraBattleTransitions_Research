@@ -22,7 +22,7 @@ bool ModuleTransitions::CleanUp()
 	preScene = nullptr;
 	postScene = nullptr;
 
-	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_NONE);
+	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_NONE);
 
 	return true;
 }
@@ -65,14 +65,33 @@ void ModuleTransitions::Squared()
 
 void ModuleTransitions::Circle()
 {
-	//SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
-	int percentage = ((float)step / (float)transitionTime) * 360.0f;
-	int r = sqrt((SCREEN_WIDTH * SCREEN_WIDTH) + (SCREEN_HEIGHT * SCREEN_HEIGHT));
-	for (float i = 0; i < percentage; i += 1.f) {
+
+	float percentage = ((float)step / (float)transitionTime) * 2.0f;
+	float r = 750.0f;
+
+	if (step * 2 >= transitionTime)
+		percentage = 2.0f - percentage;
+
+	for (float i = 0.0f; i < (percentage * r); i += 0.1f) {
+		App->renderer->DrawCircle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, i, 0, 0, 0);
+	}
+
+	/*for (float i = 0; i < percentage; i += 0.1f) {
 		int x = SCREEN_WIDTH / 2;
 		int y = SCREEN_HEIGHT / 2;
 		App->renderer->DrawLine(x, y, x + (r * cos(i)), y + (r * sin(i)), 0, 0, 0);
-	}
+	}*/
+	
+}
+
+void ModuleTransitions::Slash()
+{
+	int percentage = ((float)step / (float)transitionTime) * 200.0f;
+
+	if (step * 2 >= transitionTime)
+		percentage = 100 - percentage;
+
+	//App->renderer->DrawQuad()
 	
 }
 

@@ -32,14 +32,24 @@ bool ModuleScene2::CleanUp()
 // Update: draw background
 update_status ModuleScene2::Update()
 {
-	App->renderer->DrawTexture(backgroundTex, 0, 0, 1.0f / 1.5f);
+	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		App->transitions->Transition(App->scene2, App->scene1, 60, TRANSITION_TYPE::FADE_TO_BLACK);
 
+	else if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::SQUARED);
+
+	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::CIRCLE);
+	
+	else if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		App->transitions->Transition(App->scene2, App->scene1, 120, TRANSITION_TYPE::SLASH);
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleScene2::PostUpdate()
 {
+	App->renderer->DrawTexture(backgroundTex, 0, 0, 1.0f / 1.5f);
 
 	return UPDATE_CONTINUE;
 }
