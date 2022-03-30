@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleTransitions.h"
+#include "SDL_image/include/SDL_image.h"
 
 ModuleTransitions::ModuleTransitions(Application* app, bool start_enabled) : Module(app, start_enabled)
 {}
@@ -45,7 +46,6 @@ void ModuleTransitions::FadeToBlack()
 	else {
 		App->renderer->DrawQuad(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, 0, 0, 0, 255.0f - (float(step * 2) / (float)transitionTime) * 255.0f);
 	}
-	
 }
 
 void ModuleTransitions::Squared()
@@ -110,6 +110,34 @@ void ModuleTransitions::Theatre()
 	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (300 * scale)) / 2), SCREEN_HEIGHT, scale, false, NULL, 1.0f, percentage, 150*scale, 0);
 }
 
+void ModuleTransitions::Dissolve()
+{
+	if (App->renderer->screenshot) {
+		sprite = SDL_CreateTextureFromSurface(App->renderer->renderer, App->renderer->screen);
+	}
+	
+	if (sprite == nullptr) {
+		App->renderer->pendingToScreenshot = true;
+		return;
+	}
+
+	float percentage = ((float)step / (float)transitionTime) * 510.0f;
+	percentage = 510 - percentage;
+	
+	if (step * 2 < transitionTime) {
+		return;
+	}
+/*	MIRAR MIRAR MIRAR
+	SDL_SetTextureAlphaMod(sprite, 100);
+
+	App->renderer->DrawTexture(sprite, 0, 0);
+
+	sprite = SDL_CreateTexture(App->renderer->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, SCREEN_WIDTH, SCREEN_HEIGHT);
+	*/
+	if (step * 2 >= transitionTime)
+		App->renderer->DrawCircle(0, 0, 100, 255, 255, 255);
+}
+
 update_status ModuleTransitions::Update()
 {
 	step++;
@@ -138,6 +166,10 @@ update_status ModuleTransitions::PostUpdate()
 
 	case TRANSITION_TYPE::THEATRE:
 		Theatre();
+		break;
+
+	case TRANSITION_TYPE::DISSOLVE:
+		Dissolve();
 		break;
 	}
 	

@@ -57,17 +57,22 @@ update_status ModuleRender::PostUpdate()
 {
 	SDL_RenderPresent(renderer);
 
-	/*if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
+	if (screenshot)
+		screenshot = false;
+
+	if (pendingToScreenshot) {
 		const Uint32 formats = SDL_PIXELFORMAT_ARGB8888;
 		const int widths = 640;
 		const int heights = 400;
 		auto renderers = renderer;
 
-		SDL_Surface* surfaces = App->window->screen_surface;
-		SDL_RenderReadPixels(renderers, NULL, formats, surfaces->pixels, surfaces->pitch);
-		SDL_SaveBMP(surfaces, "photos/screenshot.bmp");
-		SDL_FreeSurface(surfaces);
-	}*/
+		screen = App->window->screen_surface;
+		SDL_RenderReadPixels(renderers, NULL, formats, screen->pixels, screen->pitch);
+		//SDL_SaveBMP(surfaces, "Assets/screenshot.bmp");
+		//SDL_FreeSurface(surfaces);
+		pendingToScreenshot = false;
+		screenshot = true;
+	}
 
 	return UPDATE_CONTINUE;
 }

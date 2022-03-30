@@ -20,6 +20,9 @@ public:
 	bool DrawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true);
 
 public:
+	SDL_Surface* screen = nullptr;
+	bool screenshot = false;
+	bool pendingToScreenshot = false;
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 };
