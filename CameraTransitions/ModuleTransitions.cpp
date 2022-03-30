@@ -87,7 +87,7 @@ void ModuleTransitions::Slash()
 	float percentage = ((float)step / (float)transitionTime) * 200.0f;
 
 	if (step * 2 >= transitionTime)
-		percentage = 100 - percentage;
+		percentage = 200 - percentage;
 	
 	int scale = 3;
 
@@ -96,6 +96,18 @@ void ModuleTransitions::Slash()
 
 	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (600 * scale)) / 2) - ((SCREEN_WIDTH / 2) * ((100.0f - percentage) / 100.0f)),
 		(SCREEN_HEIGHT - (300 * scale)) / 2, scale, true);
+}
+
+void ModuleTransitions::Theatre()
+{
+	if (sprite == nullptr)
+		sprite = App->textures->Load("Assets/semicircle.png");
+
+	float percentage = ((float)step / (float)transitionTime) * 360.0f;
+
+	int scale = 7;
+
+	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (300 * scale)) / 2), SCREEN_HEIGHT, scale, false, NULL, 1.0f, percentage, 150*scale, 0);
 }
 
 update_status ModuleTransitions::Update()
@@ -122,6 +134,10 @@ update_status ModuleTransitions::PostUpdate()
 
 	case TRANSITION_TYPE::SLASH:
 		Slash();
+		break;
+
+	case TRANSITION_TYPE::THEATRE:
+		Theatre();
 		break;
 	}
 	

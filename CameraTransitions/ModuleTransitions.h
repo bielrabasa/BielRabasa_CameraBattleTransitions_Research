@@ -9,7 +9,8 @@ enum class TRANSITION_TYPE {
 	FADE_TO_BLACK,
 	SQUARED,
 	CIRCLE,
-	SLASH
+	SLASH,
+	THEATRE
 };
 
 class ModuleTransitions : public Module
@@ -56,6 +57,7 @@ private:
 	void Squared();
 	void Circle();
 	void Slash();
+	void Theatre();
 
 	//Transition Sprites
 	SDL_Texture* sprite = nullptr;
