@@ -66,10 +66,11 @@ update_status ModuleRender::PostUpdate()
 		const int heights = 400;
 		auto renderers = renderer;
 
-		screen = App->window->screen_surface;
+		SDL_Surface* screen = App->window->screen_surface;
 		SDL_RenderReadPixels(renderers, NULL, formats, screen->pixels, screen->pitch);
-		//SDL_SaveBMP(surfaces, "Assets/screenshot.bmp");
-		//SDL_FreeSurface(surfaces);
+		SDL_SaveBMP(screen, "Assets/screenshot.bmp");
+		SDL_FreeSurface(screen);
+
 		pendingToScreenshot = false;
 		screenshot = true;
 	}

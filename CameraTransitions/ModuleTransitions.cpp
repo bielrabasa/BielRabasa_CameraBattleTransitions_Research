@@ -23,6 +23,7 @@ bool ModuleTransitions::CleanUp()
 	preScene = nullptr;
 	postScene = nullptr;
 
+	SDL_SetTextureBlendMode(sprite, SDL_BLENDMODE_NONE);
 	App->textures->Unload(sprite);
 	sprite = nullptr;
 
@@ -113,7 +114,7 @@ void ModuleTransitions::Theatre()
 void ModuleTransitions::Dissolve()
 {
 	if (App->renderer->screenshot) {
-		sprite = SDL_CreateTextureFromSurface(App->renderer->renderer, App->renderer->screen);
+		sprite = App->textures->Load("Assets/screenshot.bmp");
 	}
 	
 	if (sprite == nullptr) {
@@ -121,21 +122,16 @@ void ModuleTransitions::Dissolve()
 		return;
 	}
 
-	float percentage = ((float)step / (float)transitionTime) * 510.0f;
-	percentage = 510 - percentage;
-	
-	if (step * 2 < transitionTime) {
+	if (step < 1) {
 		return;
 	}
-/*	MIRAR MIRAR MIRAR
-	SDL_SetTextureAlphaMod(sprite, 100);
 
+	float percentage = ((float)step / (float)transitionTime) * 255.0f;
+	
+	SDL_SetTextureBlendMode(sprite, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(sprite, 255.0f - percentage);
+	
 	App->renderer->DrawTexture(sprite, 0, 0);
-
-	sprite = SDL_CreateTexture(App->renderer->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, SCREEN_WIDTH, SCREEN_HEIGHT);
-	*/
-	if (step * 2 >= transitionTime)
-		App->renderer->DrawCircle(0, 0, 100, 255, 255, 255);
 }
 
 update_status ModuleTransitions::Update()
@@ -147,6 +143,7 @@ update_status ModuleTransitions::Update()
 
 update_status ModuleTransitions::PostUpdate()
 {
+	//FUNCTION EXECUTION SWITCH
 	switch (transitionType) {
 	case TRANSITION_TYPE::FADE_TO_BLACK:
 		FadeToBlack();
@@ -173,8 +170,18 @@ update_status ModuleTransitions::PostUpdate()
 		break;
 	}
 	
-	if (2 * step >= transitionTime)
-		SceneChange();
+	//CHANGING SCENE SWITCH
+	switch (transitionType) {
+		case TRANSITION_TYPE::DISSOLVE:
+			if (3 * step >= transitionTime)
+				SceneChange();
+			break;
+		
+		default:
+			if (2 * step >= transitionTime)
+				SceneChange();
+			break;
+	}
 
 	if (step >= transitionTime)
 		Disable();
