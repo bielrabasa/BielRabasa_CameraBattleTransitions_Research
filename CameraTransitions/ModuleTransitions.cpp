@@ -12,7 +12,7 @@ ModuleTransitions::~ModuleTransitions()
 bool ModuleTransitions::Start()
 {
 	bool ret = true;
-	
+
 	step = 0;
 
 	return ret;
@@ -23,9 +23,13 @@ bool ModuleTransitions::CleanUp()
 	preScene = nullptr;
 	postScene = nullptr;
 
+	//Sets blendmode to default + unload texture
 	SDL_SetTextureBlendMode(sprite, SDL_BLENDMODE_NONE);
 	App->textures->Unload(sprite);
 	sprite = nullptr;
+
+	//Erase screenshot if exists
+	remove("Assets/screenshot.bmp");
 
 	return true;
 }
@@ -58,7 +62,7 @@ void ModuleTransitions::Squared()
 	if (step * 2 >= transitionTime)
 		percentage = 40 - percentage;
 
-	for (int j = 0; j < percentage; ++j){
+	for (int j = 0; j < percentage; ++j) {
 		for (int i = 0; i < percentage; ++i) {
 			App->renderer->DrawQuad(SDL_Rect{ w * i, h * (10 - j + i), w, h }, 0, 0, 0, 255);
 		}
@@ -89,10 +93,10 @@ void ModuleTransitions::Slash()
 
 	if (step * 2 >= transitionTime)
 		percentage = 200 - percentage;
-	
+
 	int scale = 3;
 
-	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH/2) * ((100.0f - percentage)/100.0f)) + ((SCREEN_WIDTH - (600 * scale)) / 2), 
+	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH / 2) * ((100.0f - percentage) / 100.0f)) + ((SCREEN_WIDTH - (600 * scale)) / 2),
 		(SCREEN_HEIGHT - (300 * scale)) / 2, scale);
 
 	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (600 * scale)) / 2) - ((SCREEN_WIDTH / 2) * ((100.0f - percentage) / 100.0f)),
@@ -108,30 +112,47 @@ void ModuleTransitions::Theatre()
 
 	int scale = 7;
 
-	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (300 * scale)) / 2), SCREEN_HEIGHT, scale, false, NULL, 1.0f, percentage, 150*scale, 0);
+	App->renderer->DrawTexture(sprite, ((SCREEN_WIDTH - (300 * scale)) / 2), SCREEN_HEIGHT, scale, false, NULL, 1.0f, percentage, 150 * scale, 0);
 }
 
 void ModuleTransitions::Dissolve()
 {
+	//If screenshot is made, load it
 	if (App->renderer->screenshot) {
 		sprite = App->textures->Load("Assets/screenshot.bmp");
 	}
-	
+
+	//Call for screenshot
 	if (sprite == nullptr) {
 		App->renderer->pendingToScreenshot = true;
 		return;
 	}
 
-	if (step < 1) {
+	float percentage = ((float)step / (float)transitionTime) * 255.0f;
+
+	SDL_SetTextureBlendMode(sprite, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(sprite, 255.0f - percentage);
+
+	App->renderer->DrawTexture(sprite, 0, 0);
+}
+
+void ModuleTransitions::Zoom()
+{
+	//If screenshot is made, load it
+	if (App->renderer->screenshot) {
+		sprite = App->textures->Load("Assets/screenshot.bmp");
+	}
+
+	//Call for screenshot
+	if (sprite == nullptr) {
+		App->renderer->pendingToScreenshot = true;
 		return;
 	}
 
-	float percentage = ((float)step / (float)transitionTime) * 255.0f;
-	
-	SDL_SetTextureBlendMode(sprite, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureAlphaMod(sprite, 255.0f - percentage);
-	
-	App->renderer->DrawTexture(sprite, 0, 0);
+	float percentage = ((float)step / (float)transitionTime) * 5.0f;
+
+	App->renderer->DrawTexture(sprite, 0, 0, 1.0f + percentage);
+
 }
 
 update_status ModuleTransitions::Update()
@@ -168,19 +189,24 @@ update_status ModuleTransitions::PostUpdate()
 	case TRANSITION_TYPE::DISSOLVE:
 		Dissolve();
 		break;
+
+	case TRANSITION_TYPE::ZOOM:
+		Zoom();
+		break;
 	}
-	
+
 	//CHANGING SCENE SWITCH
 	switch (transitionType) {
-		case TRANSITION_TYPE::DISSOLVE:
-			if (3 * step >= transitionTime)
-				SceneChange();
-			break;
-		
-		default:
-			if (2 * step >= transitionTime)
-				SceneChange();
-			break;
+	case TRANSITION_TYPE::ZOOM:
+	case TRANSITION_TYPE::DISSOLVE:
+		if (step >= 1)
+			SceneChange();
+		break;
+
+	default:
+		if (2 * step >= transitionTime)
+			SceneChange();
+		break;
 	}
 
 	if (step >= transitionTime)

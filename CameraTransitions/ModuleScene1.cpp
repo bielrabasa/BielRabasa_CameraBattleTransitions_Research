@@ -49,6 +49,9 @@ update_status ModuleScene1::Update()
 	else if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 		App->transitions->Transition(App->scene1, App->scene2, 60, TRANSITION_TYPE::DISSOLVE);
 
+	else if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+		App->transitions->Transition(App->scene1, App->scene2, 100, TRANSITION_TYPE::ZOOM);
+
 	return UPDATE_CONTINUE;
 }
 
