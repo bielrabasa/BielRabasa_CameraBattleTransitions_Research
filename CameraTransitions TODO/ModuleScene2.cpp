@@ -54,6 +54,11 @@ update_status ModuleScene2::Update()
 	else if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->transitions->Transition(App->scene2, App->scene1, 100, TRANSITION_TYPE::ZOOM);
 
+	//TODO 2B: Executa la funció "Transition" de l'escena 2 a la 1, dona-li un temps de transisió i el tipus que has creat previament.
+		//else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+
+	//
+
 	return UPDATE_CONTINUE;
 }
 

@@ -155,6 +155,10 @@ void ModuleTransitions::Zoom()
 
 }
 
+//TODO 6: Defineix la funció de transició
+
+//
+
 update_status ModuleTransitions::Update()
 {
 	step++;
@@ -193,10 +197,20 @@ update_status ModuleTransitions::PostUpdate()
 	case TRANSITION_TYPE::ZOOM:
 		Zoom();
 		break;
+
+	//TODO 4: Executa la funció de la transisió
+
+	//
+
 	}
 
 	//CHANGING SCENE SWITCH
 	switch (transitionType) {
+
+	//TODO 5: Assigna el tipus de transisió perquè faci el canvi de mòdul al principi.
+	
+	//
+
 	case TRANSITION_TYPE::ZOOM:
 	case TRANSITION_TYPE::DISSOLVE:
 		if (step >= 1)

@@ -12,7 +12,12 @@ enum class TRANSITION_TYPE {
 	SLASH,
 	THEATRE,
 	DISSOLVE,
-	ZOOM
+	ZOOM,
+
+	//TODO 1: Crea un nou tipus de transisió
+	
+	//
+	
 };
 
 class ModuleTransitions : public Module
@@ -62,6 +67,10 @@ private:
 	void Theatre();
 	void Dissolve();
 	void Zoom();
+
+	//TODO 3: Declara la funció per transicionar.
+
+	//
 
 	//Transition Sprites
 	SDL_Texture* sprite = nullptr;

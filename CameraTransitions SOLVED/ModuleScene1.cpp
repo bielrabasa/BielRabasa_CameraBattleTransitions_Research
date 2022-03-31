@@ -39,7 +39,7 @@ update_status ModuleScene1::Update()
 
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 		App->transitions->Transition(App->scene1, App->scene2, 60, TRANSITION_TYPE::CIRCLE);
-	
+
 	else if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 		App->transitions->Transition(App->scene1, App->scene2, 30, TRANSITION_TYPE::SLASH);
 
@@ -51,6 +51,11 @@ update_status ModuleScene1::Update()
 
 	else if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		App->transitions->Transition(App->scene1, App->scene2, 100, TRANSITION_TYPE::ZOOM);
+
+	//TODO 2A: Executa la funció "Transition" de l'escena 1 a la 2, dona-li un temps de transisió i el tipus que has creat previament.
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		App->transitions->Transition(App->scene1, App->scene2, 40, TRANSITION_TYPE::CUT);
+	//
 
 	return UPDATE_CONTINUE;
 }
