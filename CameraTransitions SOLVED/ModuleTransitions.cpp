@@ -156,8 +156,24 @@ void ModuleTransitions::Zoom()
 }
 
 //TODO 6: Defineix la funció de transició
-void Cut() {
+void ModuleTransitions::Cut() {
+	//If screenshot is made, load it
+	if (App->renderer->screenshot) {
+		sprite = App->textures->Load("Assets/screenshot.bmp");
+	}
 
+	//Call for screenshot
+	if (sprite == nullptr) {
+		App->renderer->pendingToScreenshot = true;
+		return;
+	}
+
+	float percentage = ((float)step / (float)transitionTime) * ((float)SCREEN_HEIGHT / 2.0f);
+	
+	SDL_Rect top = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT / 2 };
+	SDL_Rect bot = { 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2 };
+	App->renderer->DrawTexture(sprite, 0, -percentage, 1.0f, false, &top);
+	App->renderer->DrawTexture(sprite, 0, SCREEN_HEIGHT / 2 + percentage, 1.0f, false, &bot);
 }
 //
 
