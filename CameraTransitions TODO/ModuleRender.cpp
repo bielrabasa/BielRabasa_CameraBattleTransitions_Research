@@ -62,12 +62,9 @@ update_status ModuleRender::PostUpdate()
 
 	if (pendingToScreenshot) {
 		const Uint32 formats = SDL_PIXELFORMAT_ARGB8888;
-		const int widths = 640;
-		const int heights = 400;
-		auto renderers = renderer;
 
 		SDL_Surface* screen = App->window->screen_surface;
-		SDL_RenderReadPixels(renderers, NULL, formats, screen->pixels, screen->pitch);
+		SDL_RenderReadPixels(renderer, NULL, formats, screen->pixels, screen->pitch);
 		SDL_SaveBMP(screen, "Assets/screenshot.bmp");
 		SDL_FreeSurface(screen);
 
